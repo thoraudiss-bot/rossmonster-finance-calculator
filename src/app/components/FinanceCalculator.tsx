@@ -103,16 +103,16 @@ export function FinanceCalculator() {
             </div>
 
             {/* Down Payment % */}
-            <div className="bg-[#3c5157] h-[46px] rounded-[10px] flex items-center px-[24px] gap-[2px]">
+            <div className="relative bg-[#3c5157] h-[46px] rounded-[10px]">
               <input
                 type="number"
                 value={downPaymentPercent}
                 onChange={(e) => setDownPaymentPercent(e.target.value)}
                 min="10"
                 max="100"
-                className="bg-transparent text-[#d4c5ae] text-[20px] outline-none border-none w-[56px] spinner-light"
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[44px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
               />
-              <span className="text-[#d4c5ae] text-[20px]">%</span>
+              <span className="absolute right-[28px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[20px] pointer-events-none">%</span>
             </div>
 
             {/* Term and APR Side by Side */}
