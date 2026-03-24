@@ -103,17 +103,16 @@ export function FinanceCalculator() {
             </div>
 
             {/* Down Payment % */}
-            <div className="relative bg-[#3c5157] h-[46px] rounded-[10px]">
+            <div className="bg-[#3c5157] h-[46px] rounded-[10px] flex items-center px-[24px] gap-[2px]">
               <input
                 type="number"
                 value={downPaymentPercent}
                 onChange={(e) => setDownPaymentPercent(e.target.value)}
-                placeholder="Down Payment %"
                 min="10"
                 max="100"
-                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[40px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
+                className="bg-transparent text-[#d4c5ae] text-[20px] outline-none border-none w-[56px] spinner-light"
               />
-              <span className="absolute right-[24px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[20px] pointer-events-none">%</span>
+              <span className="text-[#d4c5ae] text-[20px]">%</span>
             </div>
 
             {/* Term and APR Side by Side */}
@@ -142,7 +141,7 @@ export function FinanceCalculator() {
                   onChange={(e) => setInterestRate(e.target.value)}
                   placeholder="APR"
                   step="0.01"
-                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
+                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
                 />
               </div>
             </div>
