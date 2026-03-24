@@ -145,8 +145,9 @@ export function FinanceCalculator() {
                   onChange={(e) => setInterestRate(e.target.value)}
                   placeholder="APR"
                   step="0.01"
-                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
+                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[64px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
                 />
+                <span className="absolute right-[28px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[14px] font-semibold tracking-wide pointer-events-none opacity-70">APR</span>
               </div>
             </div>
           </div>
