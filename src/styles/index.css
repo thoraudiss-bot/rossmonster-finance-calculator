@@ -6,12 +6,7 @@ html, body {
   background-color: #D4C5AE;
 }
 
-input[type="number"].spinner-light {
-  accent-color: #d4c5ae;
-}
-
 input[type="number"].spinner-light::-webkit-inner-spin-button,
 input[type="number"].spinner-light::-webkit-outer-spin-button {
-  opacity: 1;
-  accent-color: #d4c5ae;
+  filter: invert(84%) sepia(14%) saturate(300%) hue-rotate(5deg) brightness(100%);
 }
