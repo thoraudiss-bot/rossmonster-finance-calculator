@@ -1,10 +1,4 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Calculator, Info } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Alert, AlertDescription } from './ui/alert';
 
 export function FinanceCalculator() {
   const [totalPrice, setTotalPrice] = useState<string>('233983');
@@ -12,12 +6,25 @@ export function FinanceCalculator() {
   const [loanYears, setLoanYears] = useState<string>('20');
   const [interestRate, setInterestRate] = useState<string>('6.90');
 
+  const formatNumberWithCommas = (value: string) => {
+    const number = value.replace(/,/g, '');
+    if (!number) return '';
+    return parseFloat(number).toLocaleString('en-US');
+  };
+
+  const handleVehiclePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/,/g, '');
+    if (!isNaN(Number(value))) {
+      setTotalPrice(value);
+    }
+  };
+
   const calculateMonthlyPayment = (): { avgMonthlyPayment: number; totalPaid: number; loanAmount: number; downPayment: number } => {
     const price = parseFloat(totalPrice) || 0;
     const downPercent = parseFloat(downPaymentPercent) || 0;
     const downPayment = (price * downPercent) / 100;
     const principalAmount = price - downPayment;
-    
+
     const years = parseInt(loanYears) || 20;
     const months = years * 12;
     const rate = parseFloat(interestRate) || 0;
@@ -28,7 +35,7 @@ export function FinanceCalculator() {
 
     if (monthlyRate > 0 && months > 0) {
       // Standard amortization formula
-      monthlyPayment = principalAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+      monthlyPayment = principalAmount * (monthlyRate * Math.pow(1 + monthlyRate, months)) /
                       (Math.pow(1 + monthlyRate, months) - 1);
       totalPaid = monthlyPayment * months;
     } else if (months > 0) {
@@ -45,7 +52,7 @@ export function FinanceCalculator() {
     };
   };
 
-  const { avgMonthlyPayment, totalPaid, loanAmount, downPayment } = calculateMonthlyPayment();
+  const { avgMonthlyPayment } = calculateMonthlyPayment();
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -57,117 +64,105 @@ export function FinanceCalculator() {
   };
 
   const yearOptions = Array.from({ length: 20 }, (_, i) => (i + 1).toString());
-  const maxYears = parseInt(loanYears);
 
   return (
-    <Card className="w-full max-w-2xl shadow-lg overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-[#2E5060] to-[#3A4A2E] text-white pb-8">
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="w-6 h-6" />
-          RV Finance Calculator
-        </CardTitle>
-        <CardDescription className="text-[#D9D0BC]">
-          Calculate your estimated monthly payment with our flexible financing options
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6 pt-6" style={{ backgroundColor: '#F5F2ED' }}>
-        <Alert className="bg-[#D9D0BC]">
-          <Info className="h-4 w-4 text-[#2E5060]" />
-          <AlertDescription className="text-[#2E5060] text-sm">
-            <strong>Note:</strong> RV loans require a minimum of 10% down payment. We recommend 20% for better rates. Interest rates vary by bank and this calculator is only meant to be used to get an idea on what financing might look like.
-          </AlertDescription>
-        </Alert>
+    <div className="relative rounded-[44px] w-full max-w-2xl overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[44px]">
+        <img alt="" className="absolute max-w-none object-cover rounded-[44px] size-full" src="/payment-calculator-bg.png" />
+        <div className="absolute bg-[rgba(38,56,58,0.5)] inset-0 rounded-[44px]" />
+      </div>
 
-        <div className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="price" className="text-[#2E5060] font-semibold">RV Price</Label>
-              <Input
-                id="price"
-                type="number"
-                value={totalPrice}
-                onChange={(e) => setTotalPrice(e.target.value)}
-                placeholder="233983"
-                className="text-lg"
+      {/* Content */}
+      <div className="relative px-6 py-10 sm:px-12 sm:py-16 md:px-[115px] md:py-[100px]">
+        <div className="flex flex-col gap-[18px] w-full max-w-[457px]">
+          {/* Title */}
+          <h1 className="text-[#d4c5ae] text-[25.888px] leading-[28px] font-bold">
+            Payment Calculator
+          </h1>
+
+          {/* Top Divider Line */}
+          <div className="h-[2px] w-full">
+            <svg className="w-full h-full" fill="none" preserveAspectRatio="none" viewBox="0 0 457 1">
+              <line stroke="#A57548" x2="457" y1="0.5" y2="0.5" />
+            </svg>
+          </div>
+
+          {/* Input Fields */}
+          <div className="flex flex-col gap-[20px]">
+            {/* Vehicle Price */}
+            <div className="relative bg-[#3c5157] h-[46px] rounded-[10px]">
+              <span className="absolute left-[24px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[20px] pointer-events-none">$</span>
+              <input
+                type="text"
+                value={formatNumberWithCommas(totalPrice)}
+                onChange={handleVehiclePriceChange}
+                placeholder="Vehicle"
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[38px] pr-[24px] py-[10px] rounded-[10px] outline-none border-none"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="loanYears" className="text-[#2E5060] font-semibold">Loan Term (Years)</Label>
-              <Select value={loanYears} onValueChange={setLoanYears}>
-                <SelectTrigger id="loanYears">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {yearOptions.map(year => (
-                    <SelectItem key={year} value={year}>
-                      {year} {year === '1' ? 'Year' : 'Years'}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="downpayment" className="text-[#2E5060] font-semibold">Down Payment (%)</Label>
-            <div className="flex gap-2">
-              <Input
-                id="downpayment"
+            {/* Down Payment % */}
+            <div className="relative bg-[#3c5157] h-[46px] rounded-[10px]">
+              <input
                 type="number"
-                min="10"
-                max="100"
-                step="1"
                 value={downPaymentPercent}
                 onChange={(e) => setDownPaymentPercent(e.target.value)}
-                placeholder="20"
+                placeholder="Down Payment %"
+                min="10"
+                max="100"
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
               />
-              <div className="flex items-center bg-[#D9D0BC] px-4 rounded-md min-w-[140px] justify-end">
-                <span className="font-semibold text-[#2E5060]">{formatCurrency(downPayment)}</span>
+            </div>
+
+            {/* Term and APR Side by Side */}
+            <div className="flex justify-between gap-[23px]">
+              {/* Term */}
+              <div className="relative bg-[#3c5157] h-[46px] rounded-[10px] flex-1">
+                <select
+                  value={loanYears}
+                  onChange={(e) => setLoanYears(e.target.value)}
+                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none appearance-none cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
+                >
+                  {yearOptions.map(year => (
+                    <option key={year} value={year} className="bg-[#3c5157]">
+                      {year} {year === '1' ? 'Year' : 'Years'}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* APR */}
+              <div className="relative bg-[#3c5157] h-[46px] rounded-[10px] flex-1">
+                <input
+                  type="number"
+                  value={interestRate}
+                  onChange={(e) => setInterestRate(e.target.value)}
+                  placeholder="APR"
+                  step="0.01"
+                  className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
+                />
               </div>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="interestRate" className="text-[#2E5060] font-semibold">Interest Rate (%)</Label>
-            <Input
-              id="interestRate"
-              type="number"
-              step="0.01"
-              value={interestRate}
-              onChange={(e) => setInterestRate(e.target.value)}
-              className="h-8"
-            />
+          {/* Monthly Payment */}
+          <div className="flex justify-between items-center">
+            <p className="text-[#d4c5ae] text-[20px]">Monthly Payment</p>
+            <div className="flex items-center justify-center px-[20px] py-[9px] h-[48px] rounded-[20px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-[#d4c5ae] text-[20px] text-right">{formatCurrency(avgMonthlyPayment)}</p>
+            </div>
+          </div>
+
+          {/* Bottom Divider Line */}
+          <div className="h-[2px] w-full">
+            <svg className="w-full h-full" fill="none" preserveAspectRatio="none" viewBox="0 0 457 1">
+              <line stroke="#A57548" x2="457" y1="0.5" y2="0.5" />
+            </svg>
           </div>
         </div>
-
-        {/* Payment Summary */}
-        <Card className="bg-gradient-to-br from-[#2E5060] to-[#3A4A2E] shadow-lg text-white">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Payment Summary</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex justify-between items-center pb-3">
-              <span className="text-sm text-[#D9D0BC]">Estimated Monthly Payment:</span>
-              <span className="text-3xl font-bold text-[#B07D3A]">{formatCurrency(avgMonthlyPayment)}</span>
-            </div>
-            <div className="space-y-3 pt-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#D9D0BC]">RV Price:</span>
-                <span className="font-semibold">{formatCurrency(parseFloat(totalPrice) || 0)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#D9D0BC]">Down Payment ({downPaymentPercent}%):</span>
-                <span className="font-semibold text-[#B07D3A]">{formatCurrency(downPayment)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#D9D0BC]">Loan Amount:</span>
-                <span className="font-semibold">{formatCurrency(loanAmount)}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
