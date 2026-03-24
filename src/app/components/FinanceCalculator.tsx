@@ -3,6 +3,7 @@ import { useState } from 'react';
 export function FinanceCalculator() {
   const [totalPrice, setTotalPrice] = useState<string>('233983');
   const [downPaymentPercent, setDownPaymentPercent] = useState<string>('20');
+  const [downPaymentFocused, setDownPaymentFocused] = useState<boolean>(false);
   const [loanYears, setLoanYears] = useState<string>('20');
   const [interestRate, setInterestRate] = useState<string>('6.90');
 
@@ -105,14 +106,17 @@ export function FinanceCalculator() {
             {/* Down Payment % */}
             <div className="relative bg-[#3c5157] h-[46px] rounded-[10px]">
               <input
-                type="number"
-                value={downPaymentPercent}
-                onChange={(e) => setDownPaymentPercent(e.target.value)}
-                min="10"
-                max="100"
-                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[44px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
+                type="text"
+                inputMode="numeric"
+                value={downPaymentFocused ? downPaymentPercent : downPaymentPercent + '%'}
+                onFocus={() => setDownPaymentFocused(true)}
+                onBlur={() => setDownPaymentFocused(false)}
+                onChange={(e) => {
+                  const val = e.target.value.replace('%', '');
+                  if (!isNaN(Number(val))) setDownPaymentPercent(val);
+                }}
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
               />
-              <span className="absolute right-[28px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[20px] pointer-events-none">%</span>
             </div>
 
             {/* Term and APR Side by Side */}
