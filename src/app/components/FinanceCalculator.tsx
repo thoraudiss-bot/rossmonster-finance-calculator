@@ -111,8 +111,9 @@ export function FinanceCalculator() {
                 placeholder="Down Payment %"
                 min="10"
                 max="100"
-                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[40px] py-[10px] rounded-[10px] outline-none border-none spinner-light"
               />
+              <span className="absolute right-[24px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[20px] pointer-events-none">%</span>
             </div>
 
             {/* Term and APR Side by Side */}
