@@ -115,8 +115,9 @@ export function FinanceCalculator() {
                   const val = e.target.value.replace('%', '');
                   if (!isNaN(Number(val))) setDownPaymentPercent(val);
                 }}
-                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] px-[24px] py-[10px] rounded-[10px] outline-none border-none"
+                className="absolute inset-0 w-full h-full bg-transparent text-[#d4c5ae] text-[20px] pl-[24px] pr-[120px] py-[10px] rounded-[10px] outline-none border-none"
               />
+              <span className="absolute right-[24px] top-1/2 -translate-y-1/2 text-[#d4c5ae] text-[14px] font-semibold tracking-wide pointer-events-none opacity-70">Down Payment</span>
             </div>
 
             {/* Term and APR Side by Side */}
