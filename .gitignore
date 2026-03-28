@@ -1,0 +1,23 @@
+# Secrets & credentials — never commit these
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service_account.json
+secrets.json
+
+# Node
+node_modules/
+dist/
+.pnpm-store/
+
+# OS
+.DS_Store
+Thumbs.db
